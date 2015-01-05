@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 # comma-number-checker.py
-# check whether every line has 3 comma(,)
-# カンマの数が合っているか不安だったので、itertoolsの使いかたの勉強を兼ねて書きました。
+# check whether every line has the same number of commas(,)
 
 import itertools
+from glob import glob
 
-for i, line in zip(itertools.count(), open('subtitles.csv')):
-    commas = line.count(',')
-    if not commas == 3:
-        print(i, commas)
+for file in glob('subtitles/*.csv'):
+    target = 0
+    print(file)
+    for i, line in zip(itertools.count(1), open(file)):
+        commas = line.count(',')
+        if not target:
+            target = commas
+        if not commas == target:
+            print(i, commas)
